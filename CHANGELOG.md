@@ -2,9 +2,10 @@
 Running log of all changes made to the CS2263 Course Project.
 
 ## Unreleased
-* // UNRELEASED FEATURES GO HERE
+*  Task and Subclass classses added
+* Lombok dependencies added
 
-## // VERSION NUM - // DATE
+## // 1.0.0
 ### Fixed
 * // FIXES TO CONTENT ALREADY IN THE PROGRAM GOES HERE
 
