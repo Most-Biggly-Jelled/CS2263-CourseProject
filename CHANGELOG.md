@@ -1,5 +1,5 @@
 # Changelog
-Running log of all changes made to the // PROGRAM HERE HERE.
+Running log of all changes made to the CS2263 Course Project.
 
 ## Unreleased
 * // UNRELEASED FEATURES GO HERE
