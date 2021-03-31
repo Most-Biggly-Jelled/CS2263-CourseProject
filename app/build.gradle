@@ -30,6 +30,9 @@ dependencies {
 
     // This dependency is for lombok
     compileOnly "org.projectlombok:lombok:1.16.16"
+
+    // This dependency is for gson
+    implementation 'com.google.code.gson:gson:2.8.6'
 }
 
 application {

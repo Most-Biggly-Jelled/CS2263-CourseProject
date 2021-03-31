@@ -17,5 +17,5 @@ public class Task {
     @Getter @Setter private String status;
     @Getter @Setter private List<String> labels;
     @Getter @Setter private String priority;
-   // @Getter @Setter private TaskList parentList;
+    @Getter @Setter private TaskList parentList;
 }
