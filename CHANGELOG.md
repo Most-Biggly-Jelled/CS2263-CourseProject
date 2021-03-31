@@ -4,6 +4,7 @@ Running log of all changes made to the CS2263 Course Project.
 ## Unreleased
 *  Task and Subclass classses added
 * Lombok dependencies added
+* 3/31-- Task, Subtask, and Login Credentials Completed
 
 ## // 1.0.0
 ### Fixed
