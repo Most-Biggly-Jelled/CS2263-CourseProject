@@ -72,21 +72,20 @@ public class UI
 
     /** User selects UI element to login.
      * @param login  Login class calling this function.
-     * @param user  Username (e-mail) entered by the user.
-     * @param password  Password entered by the user. */
-    public void login(UI_Login login, String user, String password)
+     * @param user  User object to log in as. */
+    public void login(UI_Login login, User user)
     {
         /* TODO: This will need to integrated with actual login to check credentials
          * For now I have it "login" if the username & password aren't empty
          * Also admin is logged in by typing "admin" into username. This also must be changed. */
-        if (user.equals("admin"))
+        if (user.getEmail().equals("admin"))
         {
             // TODO
             UI_Admin admin = new UI_Admin(this);
             admin.show();
             login.close();
         }
-        else if (!user.isEmpty() && !password.isEmpty())
+        else if (!user.getEmail().isEmpty() && !user.getPassword().isEmpty())
         {
             UI_Main main = new UI_Main(this);
             main.show();

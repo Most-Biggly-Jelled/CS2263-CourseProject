@@ -86,18 +86,19 @@ public class UI_Login implements InterfaceUI
     /** Submit (login) button is pressed. */
     private void buttonSubmit()
     {
-        ui.login(this, textEmail.getText(), textPassword.getText());
+        //ui.login(this, textEmail.getText(), textPassword.getText());
+        // TODO: Until IO is done this will create a new user to get in.
+        buttonCreate();
     }
 
     /** Create New User (register) button is pressed. */
     public void buttonCreate()
     {
-        // TODO: Add parameters to new user constructor when User is created.
-        User user = new User();
+        User user = new User(textEmail.getText(), textPassword.getText());
         ui.createUser(user);
         // Login as the new user.
         // TODO: Change this to use the user's info rather than directly from fields.
-        ui.login(this, textEmail.getText(), textPassword.getText());
+        ui.login(this, user);
     }
 
     /** Cancel button is pressed. */

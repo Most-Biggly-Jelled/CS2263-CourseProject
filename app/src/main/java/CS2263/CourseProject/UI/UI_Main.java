@@ -25,7 +25,8 @@ public class UI_Main implements InterfaceUI
     public void show()
     {
         // Elements
-        TextField textSearch = new TextField("Search");
+        TextField textSearch = new TextField();
+        textSearch.setPromptText("Search");
         Button buttonFilter = new Button("Filter");
         Button buttonLogout = new Button("Log out");
         Button buttonOptions = new Button("Options");
@@ -66,7 +67,7 @@ public class UI_Main implements InterfaceUI
         buttonCreateTask.setOnAction(val -> buttonCreateTask());
         buttonEditTask.setOnAction(val -> buttonEditTask());
         buttonDeleteTask.setOnAction(val -> buttonDeleteTask());
-        lists.setOnMouseClicked(val -> listSelect(lists));
+        lists.setOnMouseClicked(val -> listSelect(lists, tasks));
         tasks.setOnMouseClicked(val -> taskSelect(tasks));
 
         // Scene
@@ -194,11 +195,19 @@ public class UI_Main implements InterfaceUI
     }
 
     /** Task list is selected (clicked).
-     * @param list  The ListView to get selection from. */
-    private void listSelect(ListView<TaskList> list)
+     * @param list  The ListView to get selection from.
+     * @param tasks  ListView to display all tasks belonging to this Task List. */
+    private void listSelect(ListView<TaskList> list, ListView<Task> tasks)
     {
         TaskList currentList = list.getSelectionModel().getSelectedItem();
         ui.setCurrentList(currentList);
+
+        // Clear tasks ListView of contents
+        tasks.getItems().clear();
+
+        // Show all tasks of the current list
+        for (Task task : currentList.getTasks())
+            tasks.getItems().add(task);
     }
 
     /** Task is selected (clicked).

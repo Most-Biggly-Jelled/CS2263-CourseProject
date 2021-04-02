@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Task {
@@ -19,6 +20,8 @@ public class Task {
     @Getter @Setter private List<String> labels;
     @Getter @Setter private String priority;
     @Getter @Setter private TaskList parentList;
+    /** All subtasks of this task. */
+    private ArrayList<Subtask> subtasks;
 
 
     // Constructors
@@ -45,4 +48,13 @@ public class Task {
         this.priority = priority;
         this.parentList = parentList;
     }
+
+    // Getters
+    /** Returns subtasks belonging to this task. */
+    public ArrayList<Subtask> getSubtasks() { return subtasks; }
+
+    // Setters
+    /** All subtasks of this task.
+     * @param subtasks  ArrayList of subtasks to set for this task. */
+    public void setSubtasks(ArrayList<Subtask> subtasks) { this.subtasks = subtasks; }
 }
