@@ -7,3 +7,6 @@
 
 # Ignore Gradle build output directory
 build
+
+# Ignore raw image files
+*.pspimage

@@ -3,12 +3,37 @@
  */
 package CS2263.CourseProject;
 
-public class App {
-    public String getGreeting() {
+import CS2263.CourseProject.UI.UI;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.stage.Stage;
+
+public class App extends Application
+{
+    @Override
+    public void start(Stage stage) throws Exception
+    {
+        /* Empty method needs to be here for JavaFX.
+         * Actual UI is displayed via UI class. */
+    }
+
+    // TODO: Remove this method.
+    public String getGreeting()
+    {
         return "Hello World!";
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception
+    {
+        // TODO: Remove this print statement when test is removed for it.
         System.out.println(new App().getGreeting());
+
+        // Initialize UI
+        Platform.runLater(() ->
+        {
+            UI ui = new UI();
+            ui.onStart();
+        });
+        launch(args);
     }
 }
