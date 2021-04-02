@@ -85,7 +85,8 @@ public class UI_CreateNewTask implements InterfaceUI
                         (
                                 textTitle.getText(),
                                 date.getValue(),
-                                textDescription.getText()
+                                textDescription.getText(),
+                                priority.getValue()
                         ));
         buttonSubtask.setOnAction(val ->
                 buttonSubtask
@@ -121,8 +122,7 @@ public class UI_CreateNewTask implements InterfaceUI
         // Ensure all parameters are valid
         if (!title.isEmpty() && date != null && !description.isEmpty() && task != null)
         {
-            // TODO: Send parameters to the TaskList constructor when TaskList is done.
-            Subtask newTask = new Subtask();
+            Subtask newTask = new Subtask(ui.getCurrentTask());
             ui.createSubtask(task, newTask);
 
             // Notify user of file save before closing
@@ -144,14 +144,24 @@ public class UI_CreateNewTask implements InterfaceUI
     /** Create button is pressed.
      * @param title  Title the new task should take.
      * @param date  Due date of the task.
-     * @param description  Description of the task. */
-    private void buttonCreate(String title, LocalDate date, String description)
+     * @param description  Description of the task.
+     * @param priority  Priority of the task. (High, low, etc.) */
+    private void buttonCreate(String title, LocalDate date, String description, String priority)
     {
         // Ensure all parameters are valid
         if (!title.isEmpty() && date != null && !description.isEmpty())
         {
-            // TODO: Send parameters to the TaskList constructor when TaskList is done.
-            Task newTask = new Task();
+            Task newTask = new Task
+                    (
+                            ui.getCurrentList().toString(),
+                            date,
+                            title,
+                            description,
+                            "Incomplete",
+                            null,
+                            priority,
+                            ui.getCurrentList()
+                    );
             ui.createTask(newTask);
 
             // Notify user of file save before closing

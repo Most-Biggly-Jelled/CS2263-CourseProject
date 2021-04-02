@@ -156,20 +156,20 @@ public class UI
      * @param task  New task to create. */
     public void createTask(Task task)
     {
-        // TODO
+        // TODO: Integrate with IO
     }
 
     /** User wishes to edit the current task. */
     public void editTask()
     {
-        // TODO
+        // TODO: Integrate with IO
     }
 
     /** User deletes existing task.
      * @param task  The task to delete. */
     public void deleteTask(Task task)
     {
-        // TODO
+        // TODO: Integrate with IO
     }
 
     /** User selects UI element to create a subtask of an existing task.

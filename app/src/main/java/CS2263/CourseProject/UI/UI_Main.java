@@ -148,7 +148,15 @@ public class UI_Main implements InterfaceUI
     /** Create new task button is pressed. */
     private void buttonCreateTask()
     {
-        ui.openTaskCreationUI();
+        // Ensure a list is open for the task to become a child of.
+        if (ui.getCurrentList() != null)
+            ui.openTaskCreationUI();
+        else
+        {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("Please select or create a list for the task to be created in first.");
+            a.show();
+        }
     }
 
     /** Edit current task button is pressed. */
