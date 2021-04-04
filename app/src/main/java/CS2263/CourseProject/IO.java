@@ -1,15 +1,11 @@
 package CS2263.CourseProject;
-/*
-@author Madison May
- */
 
 import com.google.gson.Gson;
-
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
+/** @author Madison May */
 public class IO {
     //Only the SaveUser and LoadUser methods should be called outside this class.
     public static void SaveUser(User user) throws IOException {
@@ -17,7 +13,9 @@ public class IO {
             Gson gson = new Gson();
             String json = gson.toJson(user);
 
-            FileWriter writer = new FileWriter("app/src/main/resources" + user.getName() + ".json");
+            // TODO: Although it should be "resources/", this causes an error for some reason
+            // So I'm leaving it as is for now.
+            FileWriter writer = new FileWriter("app/src/main/resources" + user.getEmail() + ".json");
             writer.write(json);
 
 
@@ -32,7 +30,8 @@ public class IO {
         try {
             Gson gson = new Gson();
 
-            FileReader reader = new FileReader("app/src/main/resources/" + userName + ".json");
+            // TODO: For some reason this throws IOException when "resources" is "resources/"
+            FileReader reader = new FileReader("app/src/main/resources" + userName + ".json");
 
             return gson.fromJson(reader, User.class);
 

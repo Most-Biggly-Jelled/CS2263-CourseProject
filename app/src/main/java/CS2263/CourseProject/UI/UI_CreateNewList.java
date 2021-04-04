@@ -13,6 +13,7 @@ public class UI_CreateNewList implements InterfaceUI
 {
     // Variables
     private Stage stage;
+    /** List to edit. Null if a new list is being created from this UI. */
     private TaskList list;
     // Reference to controlling UI class.
     private final UI ui;
@@ -28,9 +29,6 @@ public class UI_CreateNewList implements InterfaceUI
      * @param list  Existing list to modify. */
     public UI_CreateNewList(UI ui, TaskList list)
     {
-        if (list == null)
-            throw new IllegalArgumentException();
-
         this.ui = ui;
         this.list = list;
     }
@@ -38,7 +36,6 @@ public class UI_CreateNewList implements InterfaceUI
     // Methods
     public void show()
     {
-        // TODO: Have fields auto-fill if modifying a task with the existing list's info
         // Elements
         Button buttonCancel = new Button("Cancel");
         Label labelTitle = new Label("Title");
@@ -53,6 +50,14 @@ public class UI_CreateNewList implements InterfaceUI
             buttonCreate = new Button("Update List");
         else
             buttonCreate = new Button("Create List");
+
+        // Fill fields if a list has been provided for edit
+        if (list != null)
+        {
+            textTitle.setText(list.getName());
+            date.setValue(list.getDate());
+            textDescription.setText(list.getDescription());
+        }
 
         // Layout
         GridPane grid = new GridPane();

@@ -109,7 +109,7 @@ public class UI_Main implements InterfaceUI
     /** Create new list button is pressed. */
     private void buttonCreateList()
     {
-        ui.openListCreationUI();
+        ui.openListCreationUI(null);
     }
 
     /** Edit current list button is pressed. */
@@ -117,7 +117,7 @@ public class UI_Main implements InterfaceUI
     {
         // A list is selected
         if (ui.getCurrentList() != null)
-            ui.editList();
+            ui.openListCreationUI(ui.getCurrentList());
         // No list selected
         else
         {
@@ -151,7 +151,7 @@ public class UI_Main implements InterfaceUI
     {
         // Ensure a list is open for the task to become a child of.
         if (ui.getCurrentList() != null)
-            ui.openTaskCreationUI();
+            ui.openTaskCreationUI(null);
         else
         {
             Alert a = new Alert(Alert.AlertType.ERROR);
@@ -165,7 +165,7 @@ public class UI_Main implements InterfaceUI
     {
         // A task is selected
         if (ui.getCurrentTask() != null)
-            ui.editTask();
+            ui.openTaskCreationUI(ui.getCurrentTask());
         // No task selected
         else
         {
@@ -200,14 +200,20 @@ public class UI_Main implements InterfaceUI
     private void listSelect(ListView<TaskList> list, ListView<Task> tasks)
     {
         TaskList currentList = list.getSelectionModel().getSelectedItem();
-        ui.setCurrentList(currentList);
+        if (currentList != null)
+        {
+            ui.setCurrentList(currentList);
 
-        // Clear tasks ListView of contents
-        tasks.getItems().clear();
+            // Clear tasks ListView of contents
+            tasks.getItems().clear();
 
-        // Show all tasks of the current list
-        for (Task task : currentList.getTasks())
-            tasks.getItems().add(task);
+            // Show all tasks of the current list
+            if (currentList.getTasks() != null && currentList.getTasks().size() > 0)
+            {
+                for (Task task : currentList.getTasks())
+                    tasks.getItems().add(task);
+            }
+        }
     }
 
     /** Task is selected (clicked).

@@ -1,6 +1,7 @@
 package CS2263.CourseProject;
 
-<<<<<<< HEAD
+import java.util.ArrayList;
+
 /** @author  Dustin Weber
  * User object for the application. */
 public class User
@@ -10,6 +11,8 @@ public class User
     private final String email;
     /** Password for this user. */
     private final String password;
+    /** All task lists belonging to this user. */
+    private ArrayList<TaskList> taskLists;
 
 
     // Constructors
@@ -23,18 +26,15 @@ public class User
     }
 
     // Getters
-    /** Returns email (username) of the user. */
+    /** @return email (username) of the user. */
     public String getEmail() { return email; }
-    /** Returns password of the user. */
+    /** @return password of the user. */
     public String getPassword() { return password; }
-=======
+    /** @return Task lists array */
+    public ArrayList<TaskList> getTaskLists() { return taskLists; }
 
-import lombok.Getter;
-import lombok.Setter;
-
-public class User {
-    //placeholder class as this branch does not have user
-    @Getter @Setter private String name;
-    @Getter @Setter private TaskList taskList;
->>>>>>> feature/io
+    // Setters
+    /** Sets user task lists.
+     * @param taskLists  ArrayList of task lists to set to. */
+    public void setTaskLists(ArrayList<TaskList> taskLists) { this.taskLists = taskLists; }
 }

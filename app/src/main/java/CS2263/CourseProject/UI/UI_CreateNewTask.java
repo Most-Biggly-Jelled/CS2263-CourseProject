@@ -15,6 +15,7 @@ public class UI_CreateNewTask implements InterfaceUI
     // TODO: Class not done, only copy pasted from CreateNewList currently.
     // Variables
     private Stage stage;
+    /** Task to edit. Null if a new task is being created from this UI. */
     private Task task;
     // Reference to controlling UI class.
     private final UI ui;
@@ -30,9 +31,6 @@ public class UI_CreateNewTask implements InterfaceUI
      * @param task  Existing task to modify. */
     public UI_CreateNewTask(UI ui, Task task)
     {
-        if (task == null)
-            throw new IllegalArgumentException();
-
         this.ui = ui;
         this.task = task;
     }
@@ -40,7 +38,6 @@ public class UI_CreateNewTask implements InterfaceUI
     // Methods
     public void show()
     {
-        // TODO: Have fields auto-fill if modifying a task with the existing task's info
         // Elements
         Button buttonCancel = new Button("Cancel");
         Label labelTitle = new Label("Title");
@@ -49,7 +46,6 @@ public class UI_CreateNewTask implements InterfaceUI
         DatePicker date = new DatePicker();
         Label labelPriority = new Label("Priority");
         ComboBox<String> priority = new ComboBox<>();
-        // TODO: Change the add-all to use an enum if we add one for the task priorities
         priority.getItems().addAll("Highest", "High", "Medium", "Low");
         priority.setValue("Highest");
         Label labelDescription = new Label("Description");

@@ -2,16 +2,14 @@ package CS2263.CourseProject;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/** @author Madison May
+ * Most Biggly Jelled
+ * Task class for to do list manager */
 public class Task {
-    /*
-    Most Biggly Jelled
-    Task class for to do list manager
-     */
     @Getter @Setter private String listName;
     @Getter @Setter private LocalDate date;
     @Getter @Setter private String title;
@@ -20,9 +18,8 @@ public class Task {
     @Getter @Setter private List<String> labels;
     @Getter @Setter private String priority;
     @Getter @Setter private TaskList parentList;
-<<<<<<< HEAD
     /** All subtasks of this task. */
-    private ArrayList<Subtask> subtasks;
+    @Getter @Setter protected ArrayList<Subtask> subtasks;
 
 
     // Constructors
@@ -49,16 +46,4 @@ public class Task {
         this.priority = priority;
         this.parentList = parentList;
     }
-
-    // Getters
-    /** Returns subtasks belonging to this task. */
-    public ArrayList<Subtask> getSubtasks() { return subtasks; }
-
-    // Setters
-    /** All subtasks of this task.
-     * @param subtasks  ArrayList of subtasks to set for this task. */
-    public void setSubtasks(ArrayList<Subtask> subtasks) { this.subtasks = subtasks; }
-=======
-    @Getter @Setter protected List<Subtask> subtasks;
->>>>>>> feature/io
 }
