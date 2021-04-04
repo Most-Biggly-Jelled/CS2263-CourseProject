@@ -1,5 +1,6 @@
 package CS2263.CourseProject;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 
 /** @author  Dustin Weber
@@ -28,4 +29,15 @@ public class TaskList
     // Setters
     /** Sets tasks array. */
     public void setTasks(ArrayList<Task> tasks) { this.tasks = tasks; }
+=======
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
+
+public class TaskList {
+    //placeholder class as this branch does not have a task list
+    @Getter @Setter private String name;
+    @Getter @Setter private ArrayList<Task> tasks;
+>>>>>>> feature/io
 }

@@ -20,6 +20,7 @@ public class Task {
     @Getter @Setter private List<String> labels;
     @Getter @Setter private String priority;
     @Getter @Setter private TaskList parentList;
+<<<<<<< HEAD
     /** All subtasks of this task. */
     private ArrayList<Subtask> subtasks;
 
@@ -57,4 +58,7 @@ public class Task {
     /** All subtasks of this task.
      * @param subtasks  ArrayList of subtasks to set for this task. */
     public void setSubtasks(ArrayList<Subtask> subtasks) { this.subtasks = subtasks; }
+=======
+    @Getter @Setter protected List<Subtask> subtasks;
+>>>>>>> feature/io
 }

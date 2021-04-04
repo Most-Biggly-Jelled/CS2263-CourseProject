@@ -1,5 +1,6 @@
 package CS2263.CourseProject;
 
+<<<<<<< HEAD
 /** @author  Dustin Weber
  * User object for the application. */
 public class User
@@ -26,4 +27,14 @@ public class User
     public String getEmail() { return email; }
     /** Returns password of the user. */
     public String getPassword() { return password; }
+=======
+
+import lombok.Getter;
+import lombok.Setter;
+
+public class User {
+    //placeholder class as this branch does not have user
+    @Getter @Setter private String name;
+    @Getter @Setter private TaskList taskList;
+>>>>>>> feature/io
 }
