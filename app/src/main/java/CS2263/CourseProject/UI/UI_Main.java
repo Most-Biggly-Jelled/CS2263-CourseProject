@@ -73,9 +73,9 @@ public class UI_Main implements InterfaceUI
         // Scene
         Scene scene = new Scene(grid, 750, 480);
         stage = new Stage();
-        stage.setTitle(UI.windowTitle);
+        stage.setTitle(UI.getWindowTitle());
         stage.setScene(scene);
-        stage.getIcons().add(UI.icon);
+        stage.getIcons().add(UI.getIcon());
 
         // Final
         stage.show();

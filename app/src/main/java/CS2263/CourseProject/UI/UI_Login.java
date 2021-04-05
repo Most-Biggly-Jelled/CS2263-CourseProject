@@ -58,9 +58,9 @@ public class UI_Login implements InterfaceUI
         // Scene
         Scene scene = new Scene(grid, 280, 120);
         stage = new Stage();
-        stage.setTitle(UI.windowTitle + " Login");
+        stage.setTitle(UI.getWindowTitle() + " Login");
         stage.setScene(scene);
-        stage.getIcons().add(UI.icon);
+        stage.getIcons().add(UI.getIcon());
 
         // Listen for input
         scene.addEventFilter(KeyEvent.KEY_PRESSED, (key) ->
@@ -99,7 +99,7 @@ public class UI_Login implements InterfaceUI
         User user = new User(textEmail.getText(), textPassword.getText());
         ui.createUser(user);
         // Login as the new user.
-        //ui.login(this, user);
+        ui.login(this, user);
     }
 
     /** Cancel button is pressed. */

@@ -42,7 +42,7 @@ public class UI_Splash implements InterfaceUI
 
         stage = new Stage();
         stage.setScene(scene);
-        stage.getIcons().add(UI.icon);
+        stage.getIcons().add(UI.getIcon());
         stage.initStyle(StageStyle.TRANSPARENT);
 
         // Time before splash screen switches to next screen.
