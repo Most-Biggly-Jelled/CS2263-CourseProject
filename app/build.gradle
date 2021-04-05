@@ -12,6 +12,9 @@ plugins {
 	
 	// JavaFX
     id "org.openjfx.javafxplugin" version "0.0.9"
+
+    // Lombok
+    id "io.freefair.lombok" version "5.3.0"
 }
 
 repositories {
@@ -32,7 +35,11 @@ dependencies {
     implementation 'com.google.guava:guava:29.0-jre'
 
     // This dependency is for lombok
-    compileOnly "org.projectlombok:lombok:1.16.16"
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.20'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
 
     // This dependency is for gson
     implementation 'com.google.code.gson:gson:2.8.6'

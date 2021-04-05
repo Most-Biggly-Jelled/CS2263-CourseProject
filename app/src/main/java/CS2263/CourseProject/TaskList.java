@@ -1,14 +1,21 @@
 package CS2263.CourseProject;
 
-<<<<<<< HEAD
+import java.time.LocalDate;
 import java.util.ArrayList;
+import lombok.Getter;
+import lombok.Setter;
 
-/** @author  Dustin Weber
+/** @author  Madison May
  * Task or to-do list. */
 public class TaskList
 {
     // Variables
-    private ArrayList<Task> tasks;
+    @Getter @Setter private String name;
+    @Getter @Setter private ArrayList<Task> tasks;
+    /** Due date of the list */
+    @Getter @Setter private LocalDate date;
+    /** Description of what this list/project entails. */
+    @Getter @Setter private String description;
 
 
     // Constructors
@@ -21,23 +28,4 @@ public class TaskList
     {
         this.tasks = tasks;
     }
-
-    // Getters
-    /** Returns all tasks belonging to this list. */
-    public ArrayList<Task> getTasks() { return tasks; }
-
-    // Setters
-    /** Sets tasks array. */
-    public void setTasks(ArrayList<Task> tasks) { this.tasks = tasks; }
-=======
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.ArrayList;
-
-public class TaskList {
-    //placeholder class as this branch does not have a task list
-    @Getter @Setter private String name;
-    @Getter @Setter private ArrayList<Task> tasks;
->>>>>>> feature/io
 }

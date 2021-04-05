@@ -1,14 +1,11 @@
 package CS2263.CourseProject;
-/*
-@author Madison May
- */
 
 import com.google.gson.Gson;
-
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/** @author Madison May */
 public class IO {
     /*
     This method is able to save user's and their respective task lists all in this one method.
@@ -21,7 +18,9 @@ public class IO {
             Gson gson = new Gson();
             String json = gson.toJson(user);
 
-            FileWriter writer = new FileWriter("app/src/main/resources" + user.getName() + ".json");
+            // TODO: Although it should be "resources/", this causes an error for some reason
+            // So I'm leaving it as is for now.
+            FileWriter writer = new FileWriter("app/src/main/resources" + user.getEmail() + ".json");
             writer.write(json);
 
 
@@ -40,7 +39,8 @@ public class IO {
         try {
             Gson gson = new Gson();
 
-            FileReader reader = new FileReader("app/src/main/resources/" + userName + ".json");
+            // TODO: For some reason this throws IOException when "resources" is "resources/"
+            FileReader reader = new FileReader("app/src/main/resources" + userName + ".json");
 
             return gson.fromJson(reader, User.class);
 
