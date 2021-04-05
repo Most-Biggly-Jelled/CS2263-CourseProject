@@ -1,26 +1,28 @@
 package CS2263.CourseProject.UI;
 
-import CS2263.CourseProject.Subtask;
-import CS2263.CourseProject.Task;
-import CS2263.CourseProject.TaskList;
-import CS2263.CourseProject.User;
+import CS2263.CourseProject.*;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
+import java.io.IOException;
+import lombok.Getter;
+import lombok.Setter;
 
 /** @author  Dustin Weber
- * Primary UI class for access.
+ * Primary UI class.
  * Other UI classes shouldn't be directly accessed except via this class. */
 public class UI
 {
     // Variables
-    // Currently selected task
-    private Task currentTask;
-    // Currently selected list
-    private TaskList currentList;
-    // Default title to use for the application.
-    public final static String windowTitle = "To-Do List";
-    // Path to application icon.
-    public final static Image icon = new Image("file:icon.png");
+    /** Currently selected task */
+    @Getter @Setter private Task currentTask;
+    /** Currently selected list */
+    @Getter @Setter private TaskList currentList;
+    /** User currently logged into the system. */
+    @Getter @Setter private User currentUser;
+    /** Default title to use for the application. */
+    @Getter private final static String windowTitle = "To-Do List";
+    /** Path to application icon. */
+    @Getter private final static Image icon = new Image("file:icon.png");
 
 
     // Constructors
@@ -31,32 +33,8 @@ public class UI
         currentList = null;
     }
 
-    /** Parameterized constructor.
-     * Should only be used if the parameters being set exists prior to the UI being called.
-     * i.e. the list is loaded from file.
-     * @param currentList  TaskList to be set as the currently viewed list. */
-    public UI(Task currentTask, TaskList currentList)
-    {
-        this.currentTask = currentTask;
-        this.currentList = currentList;
-    }
-
-    // Getters
-    /** @return  Currently selected list on the UI. */
-    public TaskList getCurrentList() { return currentList; }
-    /** @return  Currently selected task on the UI. */
-    public Task getCurrentTask() { return currentTask; }
-
-    // Setters
-    /** Sets currentList (currently selected list on UI).
-     * @param currentList  List to set as current selection. */
-    public void setCurrentList(TaskList currentList) { this.currentList = currentList; }
-    /** Sets currentTask (currently selected currentTask on UI).
-     * @param currentTask  Task to set as current selection. */
-    public void setCurrentTask(Task currentTask) { this.currentTask = currentTask; }
-
     // Methods
-    /** Shows splash screen. */
+    /** Shows splash screen. Should be called at program's start. */
     public void onStart()
     {
         UI_Splash ui = new UI_Splash(this);
@@ -75,38 +53,47 @@ public class UI
      * @param user  User object to log in as. */
     public void login(UI_Login login, User user)
     {
-        /* TODO: This will need to integrated with actual login to check credentials
-         * For now I have it "login" if the username & password aren't empty
-         * Also admin is logged in by typing "admin" into username. This also must be changed. */
+        // TODO: This will need to integrated with login to check credentials
         if (user.getEmail().equals("admin"))
         {
-            // TODO
             UI_Admin admin = new UI_Admin(this);
             admin.show();
             login.close();
         }
         else if (!user.getEmail().isEmpty() && !user.getPassword().isEmpty())
         {
-            UI_Main main = new UI_Main(this);
-            main.show();
-            login.close();
+            try
+            {
+                setCurrentUser(IO.LoadUser(user.getEmail()));
+
+                UI_Main main = new UI_Main(this);
+                main.show();
+                login.close();
+            }
+            catch (IOException e)
+            {
+                // Display error to UI if user cannot be found.
+                login.loginError();
+            }
         }
         // Login error.
         else
             login.loginError();
     }
 
-    /** Shows task creation UI. */
-    public void openTaskCreationUI()
+    /** Shows task creation UI.
+     * @param task  Task to open with. Leave null to create a new task. */
+    public void openTaskCreationUI(Task task)
     {
-        UI_CreateNewTask ui = new UI_CreateNewTask(this);
+        UI_CreateNewTask ui = new UI_CreateNewTask(this, task);
         ui.show();
     }
 
-    /** Shows list creation UI. */
-    public void openListCreationUI()
+    /** Shows list creation UI.
+    * @param list  List to open with. Leave null to create a new list. */
+    public void openListCreationUI(TaskList list)
     {
-        UI_CreateNewList ui = new UI_CreateNewList(this);
+        UI_CreateNewList ui = new UI_CreateNewList(this, list);
         ui.show();
     }
 
@@ -121,54 +108,111 @@ public class UI
      * @param search  String to search for. */
     public void search(String search)
     {
-        // TODO
+        // TODO: Search class not created yet.
     }
 
     /** New user is created (registered).
      * @param user  User to create. */
     public void createUser(User user)
     {
-        // TODO
+        try
+        {
+            IO.SaveUser(user);
+        }
+        catch (IOException e)
+        {
+            System.out.println("New user couldn't be created.");
+        }
     }
 
     /** User selects UI element to create a new task list.
     * @param list  The list to create. */
     public void createList(TaskList list)
     {
-        // TODO
+        try
+        {
+            currentUser.getTaskLists().add(list);
+            IO.SaveUser(currentUser);
+        }
+        catch (IOException e)
+        {
+            System.out.println("User data couldn't be saved.");
+        }
     }
 
-    /** User selects UI element to modify/edit the currently selected task list. */
-    public void editList()
+    /** User modifies/edits currently selected task list.
+     * @param list  Newly modified list to REPLACE currentList with. */
+    public void editList(TaskList list)
     {
-        // TODO
+        try
+        {
+            currentList = list;
+            IO.SaveUser(currentUser);
+        }
+        catch (IOException e)
+        {
+            System.out.println("User data couldn't be saved.");
+        }
     }
 
     /** User deletes existing task list.
      * @param list  The list to delete. */
     public void deleteList(TaskList list)
     {
-        // TODO
+        try
+        {
+            currentUser.getTaskLists().remove(list);
+            IO.SaveUser(currentUser);
+        }
+        catch (IOException e)
+        {
+            System.out.println("User data couldn't be saved.");
+        }
     }
 
     /** User selects UI element to create a new task in the current list.
      * @param task  New task to create. */
     public void createTask(Task task)
     {
-        // TODO: Integrate with IO
+        try
+        {
+            currentList.getTasks().add(task);
+            IO.SaveUser(currentUser);
+        }
+        catch (IOException e)
+        {
+            System.out.println("User data couldn't be saved.");
+        }
     }
 
-    /** User wishes to edit the current task. */
-    public void editTask()
+    /** User wishes to edit the current task.
+     * @param task  Newly modified task to REPLACE currentTask with. */
+    public void editTask(Task task)
     {
-        // TODO: Integrate with IO
+        try
+        {
+            currentTask = task;
+            IO.SaveUser(currentUser);
+        }
+        catch (IOException e)
+        {
+            System.out.println("User data couldn't be saved.");
+        }
     }
 
     /** User deletes existing task.
      * @param task  The task to delete. */
     public void deleteTask(Task task)
     {
-        // TODO: Integrate with IO
+        try
+        {
+            currentList.getTasks().remove(task);
+            IO.SaveUser(currentUser);
+        }
+        catch (IOException e)
+        {
+            System.out.println("User data couldn't be saved.");
+        }
     }
 
     /** User selects UI element to create a subtask of an existing task.
@@ -176,19 +220,36 @@ public class UI
      * @param child  New subtask/child task. */
     public void createSubtask(Task parent, Subtask child)
     {
-        // TODO
+        try
+        {
+            parent.getSubtasks().add(child);
+            IO.SaveUser(currentUser);
+        }
+        catch (IOException e)
+        {
+            System.out.println("User data couldn't be saved.");
+        }
     }
 
     /** User deletes subtask.
      * @param subtask  The subtask to delete. */
     public void deleteSubtask(Subtask subtask)
     {
-        // TODO
+        try
+        {
+            subtask.getParentTask().getSubtasks().remove(subtask);
+            IO.SaveUser(currentUser);
+        }
+        catch (IOException e)
+        {
+            System.out.println("User data couldn't be saved.");
+        }
     }
 
     /** User selects UI element to log out. */
     public void logout()
     {
+        currentUser = null;
         UI_Login login = new UI_Login(this);
         login.show();
     }

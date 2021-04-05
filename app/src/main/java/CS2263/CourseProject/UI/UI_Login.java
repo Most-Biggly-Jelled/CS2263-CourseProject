@@ -1,5 +1,6 @@
 package CS2263.CourseProject.UI;
 
+import CS2263.CourseProject.IO;
 import CS2263.CourseProject.User;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -7,6 +8,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 /** @author  Dustin Weber
  * Login screen. Should appear as the first screen the user sees after splash. */
@@ -55,9 +58,9 @@ public class UI_Login implements InterfaceUI
         // Scene
         Scene scene = new Scene(grid, 280, 120);
         stage = new Stage();
-        stage.setTitle(UI.windowTitle + " Login");
+        stage.setTitle(UI.getWindowTitle() + " Login");
         stage.setScene(scene);
-        stage.getIcons().add(UI.icon);
+        stage.getIcons().add(UI.getIcon());
 
         // Listen for input
         scene.addEventFilter(KeyEvent.KEY_PRESSED, (key) ->
@@ -86,9 +89,8 @@ public class UI_Login implements InterfaceUI
     /** Submit (login) button is pressed. */
     private void buttonSubmit()
     {
-        //ui.login(this, textEmail.getText(), textPassword.getText());
-        // TODO: Until IO is done this will create a new user to get in.
-        buttonCreate();
+        User user = new User(textEmail.getText(), textPassword.getText());
+        ui.login(this, user);
     }
 
     /** Create New User (register) button is pressed. */
@@ -97,7 +99,6 @@ public class UI_Login implements InterfaceUI
         User user = new User(textEmail.getText(), textPassword.getText());
         ui.createUser(user);
         // Login as the new user.
-        // TODO: Change this to use the user's info rather than directly from fields.
         ui.login(this, user);
     }
 
