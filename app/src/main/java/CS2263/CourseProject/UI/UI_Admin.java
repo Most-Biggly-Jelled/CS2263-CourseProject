@@ -12,9 +12,9 @@ public class UI_Admin implements InterfaceUI
 {
     // Variables
     private Stage stage;
-    // Currently selected user
+    /** Currently selected user */
     private User selectedUser;
-    // Reference to controlling UI class.
+    /** Reference to controlling UI class. */
     private final UI ui;
 
 

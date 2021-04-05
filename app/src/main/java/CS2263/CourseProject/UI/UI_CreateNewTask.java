@@ -153,7 +153,11 @@ public class UI_CreateNewTask implements InterfaceUI
                             priority,
                             ui.getCurrentList()
                     );
-            ui.createTask(newTask);
+            // Call create or edit function based on context
+            if (task == null)
+                ui.createTask(newTask);
+            else
+                ui.editTask(newTask);
 
             // Notify user of file save before closing
             Alert a = new Alert(Alert.AlertType.INFORMATION);

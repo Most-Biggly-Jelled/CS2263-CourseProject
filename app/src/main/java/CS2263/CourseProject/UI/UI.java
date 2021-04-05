@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /** @author  Dustin Weber
- * Primary UI class for access.
+ * Primary UI class.
  * Other UI classes shouldn't be directly accessed except via this class. */
 public class UI
 {

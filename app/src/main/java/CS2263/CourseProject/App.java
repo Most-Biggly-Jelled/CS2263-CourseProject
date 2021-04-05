@@ -25,7 +25,7 @@ public class App extends Application
 
     public static void main(String[] args) throws Exception
     {
-        // TODO: Remove this print statement when test is removed for it.
+        // TODO: Remove this print statement when the placeholder test is removed for it.
         System.out.println(new App().getGreeting());
 
         // Initialize UI

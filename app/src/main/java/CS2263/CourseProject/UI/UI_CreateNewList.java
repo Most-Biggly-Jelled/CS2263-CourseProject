@@ -104,9 +104,12 @@ public class UI_CreateNewList implements InterfaceUI
         // Ensure all parameters are valid
         if (!title.isEmpty() && date != null && !description.isEmpty())
         {
-            // TODO: Send parameters to the TaskList constructor when TaskList is done.
             TaskList newList = new TaskList();
-            ui.createList(newList);
+            // Call create or edit function based on context
+            if (list == null)
+                ui.createList(newList);
+            else
+                ui.editList(newList);
 
             // Notify user of file save before closing
             Alert a = new Alert(Alert.AlertType.INFORMATION);
