@@ -12,9 +12,9 @@ public class UI_Admin implements InterfaceUI
 {
     // Variables
     private Stage stage;
-    // Currently selected user
+    /** Currently selected user */
     private User selectedUser;
-    // Reference to controlling UI class.
+    /** Reference to controlling UI class. */
     private final UI ui;
 
 
@@ -56,9 +56,9 @@ public class UI_Admin implements InterfaceUI
         // Scene
         Scene scene = new Scene(grid, 720, 480);
         stage = new Stage();
-        stage.setTitle(UI.windowTitle + " ADMIN");
+        stage.setTitle(UI.getWindowTitle() + " ADMIN");
         stage.setScene(scene);
-        stage.getIcons().add(UI.icon);
+        stage.getIcons().add(UI.getIcon());
 
         // Final
         stage.show();
@@ -92,7 +92,8 @@ public class UI_Admin implements InterfaceUI
         // Selection exists
         if (selectedUser != null)
         {
-            // TODO: This also can't be finished until Admin is.
+            UI_EditUser editUi = new UI_EditUser(ui, selectedUser);
+            editUi.show();
         }
         // No selection
         else

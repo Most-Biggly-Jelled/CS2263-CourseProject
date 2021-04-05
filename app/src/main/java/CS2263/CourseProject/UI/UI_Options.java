@@ -33,9 +33,9 @@ public class UI_Options implements InterfaceUI
         // Scene
         Scene scene = new Scene(grid, 720, 480);
         stage = new Stage();
-        stage.setTitle(UI.windowTitle + " Options");
+        stage.setTitle(UI.getWindowTitle() + " Options");
         stage.setScene(scene);
-        stage.getIcons().add(UI.icon);
+        stage.getIcons().add(UI.getIcon());
 
         // Final
         stage.show();

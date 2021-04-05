@@ -3,25 +3,26 @@ package CS2263.CourseProject.UI;
 import CS2263.CourseProject.*;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
-
 import java.io.IOException;
+import lombok.Getter;
+import lombok.Setter;
 
 /** @author  Dustin Weber
- * Primary UI class for access.
+ * Primary UI class.
  * Other UI classes shouldn't be directly accessed except via this class. */
 public class UI
 {
     // Variables
     /** Currently selected task */
-    private Task currentTask;
+    @Getter @Setter private Task currentTask;
     /** Currently selected list */
-    private TaskList currentList;
+    @Getter @Setter private TaskList currentList;
     /** User currently logged into the system. */
-    private User currentUser;
-    // Default title to use for the application.
-    public final static String windowTitle = "To-Do List";
-    // Path to application icon.
-    public final static Image icon = new Image("file:icon.png");
+    @Getter @Setter private User currentUser;
+    /** Default title to use for the application. */
+    @Getter private final static String windowTitle = "To-Do List";
+    /** Path to application icon. */
+    @Getter private final static Image icon = new Image("file:icon.png");
 
 
     // Constructors
@@ -32,37 +33,8 @@ public class UI
         currentList = null;
     }
 
-    /** Parameterized constructor.
-     * Should only be used if the parameters being set exists prior to the UI being called.
-     * i.e. the list is loaded from file.
-     * @param currentList  TaskList to be set as the currently viewed list. */
-    public UI(Task currentTask, TaskList currentList)
-    {
-        this.currentTask = currentTask;
-        this.currentList = currentList;
-    }
-
-    // Getters
-    /** @return  Currently selected list on the UI. */
-    public TaskList getCurrentList() { return currentList; }
-    /** @return  Currently selected task on the UI. */
-    public Task getCurrentTask() { return currentTask; }
-    /** @return  Currently logged in user. */
-    public User getCurrentUser() { return currentUser; }
-
-    // Setters
-    /** Sets currentList (currently selected list on UI).
-     * @param currentList  List to set as current selection. */
-    public void setCurrentList(TaskList currentList) { this.currentList = currentList; }
-    /** Sets currentTask (currently selected currentTask on UI).
-     * @param currentTask  Task to set as current selection. */
-    public void setCurrentTask(Task currentTask) { this.currentTask = currentTask; }
-    /** Sets currentUser (User logged into the system).
-     * @param currentUser  User object to login as. */
-    public void setCurrentUser(User currentUser) { this.currentUser = currentUser; }
-
     // Methods
-    /** Shows splash screen. */
+    /** Shows splash screen. Should be called at program's start. */
     public void onStart()
     {
         UI_Splash ui = new UI_Splash(this);
@@ -81,12 +53,9 @@ public class UI
      * @param user  User object to log in as. */
     public void login(UI_Login login, User user)
     {
-        /* TODO: This will need to integrated with actual login to check credentials
-         * For now I have it "login" if the username & password aren't empty
-         * Also admin is logged in by typing "admin" into username. This also must be changed. */
+        // TODO: This will need to integrated with login to check credentials
         if (user.getEmail().equals("admin"))
         {
-            // TODO
             UI_Admin admin = new UI_Admin(this);
             admin.show();
             login.close();
@@ -139,7 +108,7 @@ public class UI
      * @param search  String to search for. */
     public void search(String search)
     {
-        // TODO
+        // TODO: Search class not created yet.
     }
 
     /** New user is created (registered).

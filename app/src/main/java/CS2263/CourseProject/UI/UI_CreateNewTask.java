@@ -12,20 +12,15 @@ import java.time.LocalDate;
  * Task creation/modification UI. */
 public class UI_CreateNewTask implements InterfaceUI
 {
-    // TODO: Class not done, only copy pasted from CreateNewList currently.
     // Variables
     private Stage stage;
     /** Task to edit. Null if a new task is being created from this UI. */
-    private Task task;
-    // Reference to controlling UI class.
+    private final Task task;
+    /** Reference to controlling UI class. */
     private final UI ui;
 
 
     // Constructors
-    /** Default constructor. Use this when creating a new task.
-     * @param ui  Reference to controlling UI class. */
-    public UI_CreateNewTask(UI ui) { this.ui = ui; }
-
     /** Parameterized constructor. Use this when modifying an existing task.
      * @param ui  Reference to controlling UI class.
      * @param task  Existing task to modify. */
@@ -95,9 +90,9 @@ public class UI_CreateNewTask implements InterfaceUI
         // Scene
         Scene scene = new Scene(grid, 240, 230);
         stage = new Stage();
-        stage.setTitle(UI.windowTitle + " - Task");
+        stage.setTitle(UI.getWindowTitle() + " - Task");
         stage.setScene(scene);
-        stage.getIcons().add(UI.icon);
+        stage.getIcons().add(UI.getIcon());
 
         // Final
         stage.show();
@@ -158,7 +153,11 @@ public class UI_CreateNewTask implements InterfaceUI
                             priority,
                             ui.getCurrentList()
                     );
-            ui.createTask(newTask);
+            // Call create or edit function based on context
+            if (task == null)
+                ui.createTask(newTask);
+            else
+                ui.editTask(newTask);
 
             // Notify user of file save before closing
             Alert a = new Alert(Alert.AlertType.INFORMATION);

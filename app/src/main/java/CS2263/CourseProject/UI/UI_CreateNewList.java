@@ -14,16 +14,12 @@ public class UI_CreateNewList implements InterfaceUI
     // Variables
     private Stage stage;
     /** List to edit. Null if a new list is being created from this UI. */
-    private TaskList list;
-    // Reference to controlling UI class.
+    private final TaskList list;
+    /** Reference to controlling UI class. */
     private final UI ui;
 
 
     // Constructors
-    /** Default constructor. Use this when creating a new task.
-     * @param ui  Reference to controlling UI class. */
-    public UI_CreateNewList(UI ui) { this.ui = ui; }
-
     /** Parameterized constructor. Use this when modifying an existing task.
      * @param ui  Reference to controlling UI class.
      * @param list  Existing list to modify. */
@@ -85,9 +81,9 @@ public class UI_CreateNewList implements InterfaceUI
         // Scene
         Scene scene = new Scene(grid, 240, 180);
         stage = new Stage();
-        stage.setTitle(UI.windowTitle + " - List");
+        stage.setTitle(UI.getWindowTitle() + " - List");
         stage.setScene(scene);
-        stage.getIcons().add(UI.icon);
+        stage.getIcons().add(UI.getIcon());
 
         // Final
         stage.show();
@@ -108,9 +104,12 @@ public class UI_CreateNewList implements InterfaceUI
         // Ensure all parameters are valid
         if (!title.isEmpty() && date != null && !description.isEmpty())
         {
-            // TODO: Send parameters to the TaskList constructor when TaskList is done.
             TaskList newList = new TaskList();
-            ui.createList(newList);
+            // Call create or edit function based on context
+            if (list == null)
+                ui.createList(newList);
+            else
+                ui.editList(newList);
 
             // Notify user of file save before closing
             Alert a = new Alert(Alert.AlertType.INFORMATION);
