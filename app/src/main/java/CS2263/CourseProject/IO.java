@@ -8,10 +8,14 @@ import com.google.gson.Gson;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
 public class IO {
-    //Only the SaveUser and LoadUser methods should be called outside this class.
+    /*
+    This method is able to save user's and their respective task lists all in this one method.
+
+    Each user will be saved under their own JSON file with their name. We need to make sure that users of the same name
+    do not exist to avoid writing over another user's data
+     */
     public static void SaveUser(User user) throws IOException {
         try {
             Gson gson = new Gson();
@@ -27,6 +31,10 @@ public class IO {
         }
 
     }
+
+    /*
+    Only parameter here is the user's name. Password checking should all be in other methods.
+     */
 
     public static User LoadUser(String userName) throws IOException {
         try {
