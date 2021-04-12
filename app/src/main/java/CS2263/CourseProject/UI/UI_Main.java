@@ -13,8 +13,9 @@ public class UI_Main implements InterfaceUI
 {
     // Variables
     private Stage stage;
-    // Reference to controlling UI class.
+    /** Reference to controlling UI class. */
     private final UI ui;
+    private UI_Subtask subtaskUI;
 
 
     // Constructors
@@ -57,6 +58,13 @@ public class UI_Main implements InterfaceUI
                 tasks, buttonCreateList, buttonEditList, buttonDeleteList, buttonCreateTask, buttonEditTask,
                 buttonDeleteTask);
 
+        // Scene
+        Scene scene = new Scene(grid, 750, 480);
+        stage = new Stage();
+        stage.setTitle(UI.getWindowTitle());
+        stage.setScene(scene);
+        stage.getIcons().add(UI.getIcon());
+
         // Listeners
         buttonFilter.setOnAction(val -> buttonFilter(textSearch.getText()));
         buttonLogout.setOnAction(val -> buttonLogout());
@@ -70,20 +78,8 @@ public class UI_Main implements InterfaceUI
         lists.setOnMouseClicked(val -> listSelect(lists, tasks));
         tasks.setOnMouseClicked(val -> taskSelect(tasks));
 
-        // Scene
-        Scene scene = new Scene(grid, 750, 480);
-        stage = new Stage();
-        stage.setTitle(UI.getWindowTitle());
-        stage.setScene(scene);
-        stage.getIcons().add(UI.getIcon());
-
         // Final
         stage.show();
-    }
-
-    public void close()
-    {
-        stage.close();
     }
 
     /** Filter results button is pressed.
@@ -222,7 +218,25 @@ public class UI_Main implements InterfaceUI
     {
         Task currentTask = task.getSelectionModel().getSelectedItem();
         ui.setCurrentTask(currentTask);
-        // TODO: Need to do a check if currentTask has subtasks here
-        // Open a new UI showing the subtasks if so.
+
+        // Open subtask UI if selected task has subtasks & subtask UI isn't already open
+        if (currentTask.getSubtasks() != null
+                && currentTask.getSubtasks().size() > 0
+                && subtaskUI == null)
+            subtaskUI = ui.openSubtaskUI(this, currentTask);
+        // If subtask UI is already open the update it to show the newly selected task
+        else if (subtaskUI != null)
+            subtaskUI.setTask(currentTask);
+    }
+
+    /** Call when the subtask UI is closed to set reference to null. */
+    public void onSubtaskClose()
+    {
+        subtaskUI = null;
+    }
+
+    public void close()
+    {
+        stage.close();
     }
 }

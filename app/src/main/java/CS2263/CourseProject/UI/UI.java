@@ -89,6 +89,17 @@ public class UI
         ui.show();
     }
 
+    /** Shows subtasks for a given task.
+     * @param main  Main UI class the subtask UI should reference.
+     * @param task  Task to show subtasks of.
+     * @return  Newly created UI */
+    public UI_Subtask openSubtaskUI(UI_Main main, Task task)
+    {
+        UI_Subtask ui = new UI_Subtask(main, task);
+        ui.show();
+        return ui;
+    }
+
     /** Shows list creation UI.
     * @param list  List to open with. Leave null to create a new list. */
     public void openListCreationUI(TaskList list)
