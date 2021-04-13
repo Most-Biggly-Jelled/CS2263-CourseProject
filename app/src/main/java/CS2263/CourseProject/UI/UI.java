@@ -15,6 +15,8 @@ public class UI
     // Variables
     /** Currently selected task */
     @Getter @Setter private Task currentTask;
+    /** Currently selected section of a list. */
+    @Getter @Setter private TaskListSection currentSection;
     /** Currently selected list */
     @Getter @Setter private TaskList currentList;
     /** User currently logged into the system. */
@@ -187,7 +189,7 @@ public class UI
     {
         try
         {
-            currentList.getTasks().add(task);
+            currentSection.getTasks().add(task);
             IO.SaveUser(currentUser);
         }
         catch (IOException e)
@@ -217,7 +219,7 @@ public class UI
     {
         try
         {
-            currentList.getTasks().remove(task);
+            currentSection.getTasks().remove(task);
             IO.SaveUser(currentUser);
         }
         catch (IOException e)
