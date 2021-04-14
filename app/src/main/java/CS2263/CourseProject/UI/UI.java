@@ -15,6 +15,8 @@ public class UI
     // Variables
     /** Currently selected task */
     @Getter @Setter private Task currentTask;
+    /** Currently selected section of a list. */
+    @Getter @Setter private TaskListSection currentSection;
     /** Currently selected list */
     @Getter @Setter private TaskList currentList;
     /** User currently logged into the system. */
@@ -87,6 +89,17 @@ public class UI
     {
         UI_CreateNewTask ui = new UI_CreateNewTask(this, task);
         ui.show();
+    }
+
+    /** Shows subtasks for a given task.
+     * @param main  Main UI class the subtask UI should reference.
+     * @param task  Task to show subtasks of.
+     * @return  Newly created UI */
+    public UI_Subtask openSubtaskUI(UI_Main main, Task task)
+    {
+        UI_Subtask ui = new UI_Subtask(main, task);
+        ui.show();
+        return ui;
     }
 
     /** Shows list creation UI.
@@ -176,7 +189,7 @@ public class UI
     {
         try
         {
-            currentList.getTasks().add(task);
+            currentSection.getTasks().add(task);
             IO.SaveUser(currentUser);
         }
         catch (IOException e)
@@ -206,7 +219,7 @@ public class UI
     {
         try
         {
-            currentList.getTasks().remove(task);
+            currentSection.getTasks().remove(task);
             IO.SaveUser(currentUser);
         }
         catch (IOException e)
