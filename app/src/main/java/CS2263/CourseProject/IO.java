@@ -6,7 +6,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /** @author Madison May */
-public class IO {
+public class IO
+{
+    // Variables
+    /** Directory to get user data from */
+    private static final String userDir = "./config/";
+
+
     /*
     This method is able to save user's and their respective task lists all in this one method.
 
@@ -20,7 +26,7 @@ public class IO {
 
             // TODO: Although it should be "resources/", this causes an error for some reason
             // So I'm leaving it as is for now.
-            FileWriter writer = new FileWriter("app/src/main/resources" + user.getEmail() + ".json");
+            FileWriter writer = new FileWriter(userDir + user.getEmail() + ".json");
             writer.write(json);
 
 
@@ -40,7 +46,7 @@ public class IO {
             Gson gson = new Gson();
 
             // TODO: For some reason this throws IOException when "resources" is "resources/"
-            FileReader reader = new FileReader("app/src/main/resources" + userName + ".json");
+            FileReader reader = new FileReader(userDir + userName + ".json");
 
             return gson.fromJson(reader, User.class);
 
@@ -50,8 +56,8 @@ public class IO {
         return null;
     }
 
-
-
-
-
+    private static void checkDir()
+    {
+        //
+    }
 }

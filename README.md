@@ -1,2 +1,2 @@
 # CS2263-CourseProject
-Course project for CS2263
+Multi-user to-do list manager, course project for CS2263.

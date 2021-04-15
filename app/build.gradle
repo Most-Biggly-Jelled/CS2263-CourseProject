@@ -15,6 +15,9 @@ plugins {
 
     // Lombok
     id "io.freefair.lombok" version "5.3.0"
+
+    // License
+    //id "com.github.hierynomus.license" version "0.15.0"
 }
 
 repositories {
@@ -52,7 +55,7 @@ javafx {
 
 application {
     // Define the main class for the application.
-    mainClass = 'CS2263.CourseProject.App'
+    mainClassName = 'CS2263.CourseProject.App'
 }
 
 tasks.named('test') {
