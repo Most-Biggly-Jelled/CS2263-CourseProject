@@ -1,6 +1,5 @@
 package CS2263.CourseProject.UI;
 
-import CS2263.CourseProject.IO;
 import CS2263.CourseProject.User;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -8,19 +7,22 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-
-import java.io.IOException;
+import lombok.Getter;
 
 /** @author  Dustin Weber
  * Login screen. Should appear as the first screen the user sees after splash. */
 public class UI_Login implements InterfaceUI
 {
-    // Variables
+    /** Variables */
     private Stage stage;
-    // Username (e-mail) text field
-    private TextField textEmail;
-    private PasswordField textPassword;
-    // Reference to controlling UI class.
+    /** Username (e-mail) text field */
+    @Getter private TextField textEmail;
+    /** Password field */
+    @Getter private PasswordField textPassword;
+    /** Reference to currently open register UI window.
+     * Only 0-1 of these windows should be open at any time. */
+    private UI_RegisterUser register;
+    /** Reference to controlling UI class. */
     private final UI ui;
 
 
@@ -96,15 +98,23 @@ public class UI_Login implements InterfaceUI
     /** Create New User (register) button is pressed. */
     public void buttonCreate()
     {
-        User user = new User(textEmail.getText(), textPassword.getText());
-        ui.createUser(user);
-        // Login as the new user.
-        ui.login(this, user);
+        // Open UI_RegisterUser if not already open
+        if (register == null)
+        {
+            register = new UI_RegisterUser(this, ui);
+            register.show();
+        }
     }
 
     /** Cancel button is pressed. */
     private void buttonCancel()
     {
         ui.quitApplication();
+    }
+
+    /** Call when register UI is being closed to set reference to null. */
+    public void onRegisterClose()
+    {
+        register = null;
     }
 }
