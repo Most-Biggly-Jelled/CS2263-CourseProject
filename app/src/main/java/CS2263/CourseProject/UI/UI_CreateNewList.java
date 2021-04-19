@@ -51,7 +51,7 @@ public class UI_CreateNewList implements InterfaceUI
         if (list != null)
         {
             textTitle.setText(list.getName());
-            date.setValue(list.getDate());
+            date.setValue(list.getDateAsLocalDate(list.getDate()));
             textDescription.setText(list.getDescription());
         }
 

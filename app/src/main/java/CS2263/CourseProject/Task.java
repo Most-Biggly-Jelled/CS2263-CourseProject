@@ -11,7 +11,7 @@ import java.util.List;
  * Task class for to do list manager */
 public class Task {
     @Getter @Setter private String listName;
-    @Getter @Setter private LocalDate date;
+    @Getter @Setter private String date;
     @Getter @Setter private String title;
     @Getter @Setter private String description;
     @Getter @Setter private String status;
@@ -35,7 +35,7 @@ public class Task {
      * @param labels  Labels for categories this task should belong to.
      * @param priority  How important this task is.
      * @param parentList  Parent list this task belongs to. */
-    public Task(String listName, LocalDate date, String title, String description, String status, List<String> labels, String priority, TaskList parentList)
+    public Task(String listName, String date, String title, String description, String status, List<String> labels, String priority, TaskList parentList)
     {
         this.listName = listName;
         this.date = date;

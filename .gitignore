@@ -10,3 +10,6 @@ build
 
 # Ignore raw image files
 *.pspimage
+
+# Ignore user config directory
+config/

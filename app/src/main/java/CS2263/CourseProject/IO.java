@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /** @author Madison May */
 public class IO
@@ -19,19 +21,23 @@ public class IO
     Each user will be saved under their own JSON file with their name. We need to make sure that users of the same name
     do not exist to avoid writing over another user's data
      */
-    public static void SaveUser(User user) throws IOException {
-        try {
+    public static void SaveUser(User user) throws IOException
+    {
+        try
+        {
+            checkDir(userDir);
+
             Gson gson = new Gson();
             String json = gson.toJson(user);
 
-            // TODO: Although it should be "resources/", this causes an error for some reason
-            // So I'm leaving it as is for now.
             FileWriter writer = new FileWriter(userDir + user.getEmail() + ".json");
             writer.write(json);
 
 
             writer.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             System.out.println("IOException on file write.");
         }
 
@@ -40,24 +46,34 @@ public class IO
     /*
     Only parameter here is the user's name. Password checking should all be in other methods.
      */
+    public static User LoadUser(String userName) throws IOException
+    {
+        try
+        {
+            checkDir(userDir);
 
-    public static User LoadUser(String userName) throws IOException {
-        try {
             Gson gson = new Gson();
 
             // TODO: For some reason this throws IOException when "resources" is "resources/"
             FileReader reader = new FileReader(userDir + userName + ".json");
 
             return gson.fromJson(reader, User.class);
-
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             System.out.println("IOException on file read.");
         }
         return null;
     }
 
-    private static void checkDir()
+    /** Checks if param "dir" exists. Creates if not.
+     * Should be called before all other IO operations.
+     * @param dir  Directory path to check and create. */
+    private static void checkDir(String dir) throws IOException
     {
-        //
+        Path path = Path.of(dir);
+        // Directory doesn't exist
+        if (!Files.isDirectory(path))
+            Files.createDirectories(path);
     }
 }

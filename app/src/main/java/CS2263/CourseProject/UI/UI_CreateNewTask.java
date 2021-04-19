@@ -145,7 +145,7 @@ public class UI_CreateNewTask implements InterfaceUI
             Task newTask = new Task
                     (
                             ui.getCurrentList().toString(),
-                            date,
+                            date.toString(),
                             title,
                             description,
                             "Incomplete",
