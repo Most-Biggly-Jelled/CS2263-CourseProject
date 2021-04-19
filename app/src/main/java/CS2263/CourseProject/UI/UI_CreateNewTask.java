@@ -16,6 +16,8 @@ public class UI_CreateNewTask implements InterfaceUI
     private Stage stage;
     /** Task to edit. Null if a new task is being created from this UI. */
     private final Task task;
+    /** Reference to main UI. */
+    private final UI_Main main;
     /** Reference to controlling UI class. */
     private final UI ui;
 
@@ -23,10 +25,12 @@ public class UI_CreateNewTask implements InterfaceUI
     // Constructors
     /** Parameterized constructor. Use this when modifying an existing task.
      * @param ui  Reference to controlling UI class.
+     * @param main  Reference to main UI.
      * @param task  Existing task to modify. */
-    public UI_CreateNewTask(UI ui, Task task)
+    public UI_CreateNewTask(UI ui, UI_Main main, Task task)
     {
         this.ui = ui;
+        this.main = main;
         this.task = task;
     }
 
@@ -177,6 +181,7 @@ public class UI_CreateNewTask implements InterfaceUI
 
     public void close()
     {
+        main.populateListViews();
         stage.close();
     }
 }

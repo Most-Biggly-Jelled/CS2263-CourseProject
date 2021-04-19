@@ -6,7 +6,7 @@ import lombok.*;
 
 /** @author  Madison May
  * Task or to-do list. */
-@NoArgsConstructor
+@AllArgsConstructor
 public class TaskList
 {
     // Variables
@@ -17,13 +17,6 @@ public class TaskList
     /** Description of what this list/project entails. */
     @Getter @Setter private String description;
 
-
-    /** Parameterized constructor
-     * @param sections  Array of list sections. */
-    public TaskList(ArrayList<TaskListSection> sections)
-    {
-        this.sections = sections;
-    }
 
     /** @author Dustin Weber
      * @param s  String to convert to a LocalDate
@@ -39,5 +32,11 @@ public class TaskList
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public String toString()
+    {
+        return name;
     }
 }

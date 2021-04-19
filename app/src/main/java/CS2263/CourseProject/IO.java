@@ -1,6 +1,8 @@
 package CS2263.CourseProject;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,7 +29,7 @@ public class IO
         {
             checkDir(userDir);
 
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String json = gson.toJson(user);
 
             FileWriter writer = new FileWriter(userDir + user.getEmail() + ".json");

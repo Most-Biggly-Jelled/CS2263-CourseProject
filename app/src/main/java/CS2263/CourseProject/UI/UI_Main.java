@@ -8,6 +8,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 /** @author  Dustin Weber
  * Main UI class. This is the main program window which users see after logging in. */
 public class UI_Main implements InterfaceUI
@@ -17,6 +19,10 @@ public class UI_Main implements InterfaceUI
     /** Reference to controlling UI class. */
     private final UI ui;
     private UI_Subtask subtaskUI;
+    // List views
+    private ListView<TaskList> lists;
+    private ListView<TaskListSection> sections;
+    private ListView<Task> tasks;
 
 
     // Constructors
@@ -32,37 +38,49 @@ public class UI_Main implements InterfaceUI
         Button buttonFilter = new Button("Filter");
         Button buttonLogout = new Button("Log out");
         Button buttonOptions = new Button("Options");
-        ListView<TaskList> lists = new ListView<>();
-        ListView<TaskListSection> sections = new ListView<>();
-        ListView<Task> tasks = new ListView<>();
+        lists = new ListView<>();
+        sections = new ListView<>();
+        tasks = new ListView<>();
         Button buttonCreateList = new Button("Create List");
         Button buttonEditList = new Button("Edit List");
-        Button buttonDeleteList = new Button("Delete");
+        Button buttonDeleteList = new Button("Delete List");
+
+        Button buttonCreateSec = new Button("Create Section");
+        Button buttonEditSec = new Button("Edit Section");
+        Button buttonDeleteSec = new Button("Delete Section");
+
         Button buttonCreateTask = new Button("Create Task");
         Button buttonEditTask = new Button("Edit Task");
-        Button buttonDeleteTask = new Button("Delete");
+        Button buttonDeleteTask = new Button("Delete Task");
+
+        populateListViews();
 
         // Layout
         GridPane grid = new GridPane();
         GridPane.setConstraints(textSearch, 0, 0);
         GridPane.setConstraints(buttonFilter, 1, 0);
-        GridPane.setConstraints(buttonLogout, 4, 0);
-        GridPane.setConstraints(buttonOptions, 5, 0);
+        GridPane.setConstraints(buttonLogout, 7, 0);
+        GridPane.setConstraints(buttonOptions, 8, 0);
         GridPane.setConstraints(lists, 0, 1);
-        GridPane.setConstraints(sections, 2, 1);
-        GridPane.setConstraints(tasks, 5, 1);
+        GridPane.setConstraints(sections, 3, 1);
+        GridPane.setConstraints(tasks, 6, 1);
         GridPane.setConstraints(buttonCreateList, 0, 2);
         GridPane.setConstraints(buttonEditList, 1, 2);
         GridPane.setConstraints(buttonDeleteList, 2, 2);
-        GridPane.setConstraints(buttonCreateTask, 3, 2);
-        GridPane.setConstraints(buttonEditTask, 4, 2);
-        GridPane.setConstraints(buttonDeleteTask, 5, 2);
+        GridPane.setConstraints(buttonCreateSec, 3, 2);
+        GridPane.setConstraints(buttonEditSec, 4, 2);
+        GridPane.setConstraints(buttonDeleteSec, 5, 2);
+        GridPane.setConstraints(buttonCreateTask, 6, 2);
+        GridPane.setConstraints(buttonEditTask, 7, 2);
+        GridPane.setConstraints(buttonDeleteTask, 8, 2);
         grid.getChildren().addAll(textSearch, buttonFilter, buttonLogout, buttonOptions, lists,
-                sections, tasks, buttonCreateList, buttonEditList, buttonDeleteList,
+                sections, tasks,
+                buttonCreateList, buttonEditList, buttonDeleteList,
+                buttonCreateSec, buttonEditSec, buttonDeleteSec,
                 buttonCreateTask, buttonEditTask, buttonDeleteTask);
 
         // Scene
-        Scene scene = new Scene(grid, 945, 480);
+        Scene scene = new Scene(grid, 1200, 500);
         stage = new Stage();
         stage.setTitle(UI.getWindowTitle());
         stage.setScene(scene);
@@ -72,12 +90,19 @@ public class UI_Main implements InterfaceUI
         buttonFilter.setOnAction(val -> buttonFilter(textSearch.getText()));
         buttonLogout.setOnAction(val -> buttonLogout());
         buttonOptions.setOnAction(val -> buttonOptions());
+
         buttonCreateList.setOnAction(val -> buttonCreateList());
         buttonEditList.setOnAction(val -> buttonEditList());
         buttonDeleteList.setOnAction(val -> buttonDeleteList());
+
+        buttonCreateSec.setOnAction(val -> buttonCreateSection());
+        buttonEditSec.setOnAction(val -> buttonEditSection());
+        buttonDeleteSec.setOnAction(val -> buttonDeleteSection());
+
         buttonCreateTask.setOnAction(val -> buttonCreateTask());
         buttonEditTask.setOnAction(val -> buttonEditTask());
         buttonDeleteTask.setOnAction(val -> buttonDeleteTask());
+
         lists.setOnMouseClicked(val -> listSelect(lists, sections, tasks));
         sections.setOnMouseClicked(val -> sectionSelect(sections, tasks));
         tasks.setOnMouseClicked(val -> taskSelect(tasks));
@@ -106,12 +131,12 @@ public class UI_Main implements InterfaceUI
         ui.openOptionsUI();
     }
 
+
     /** Create new list button is pressed. */
     private void buttonCreateList()
     {
         ui.openListCreationUI(null);
     }
-
     /** Edit current list button is pressed. */
     private void buttonEditList()
     {
@@ -125,7 +150,6 @@ public class UI_Main implements InterfaceUI
             a.show();
         }
     }
-
     /** Delete current list button is pressed. */
     private void buttonDeleteList()
     {
@@ -146,20 +170,66 @@ public class UI_Main implements InterfaceUI
         }
     }
 
-    /** Create new task button is pressed. */
-    private void buttonCreateTask()
+    /** Create Section button is pressed. */
+    private void buttonCreateSection()
     {
-        // Ensure a list is open for the task to become a child of.
+        // Ensure a list is open for the section to become a child of.
         if (ui.getCurrentList() != null)
-            ui.openTaskCreationUI(null);
+            ui.openSectionCreationUI(null);
         else
         {
             Alert a = new Alert(Alert.AlertType.ERROR);
-            a.setContentText("Please select or create a list for the task to be created in first.");
+            a.setContentText("Please select or create a list for the section to be created in first.");
+            a.show();
+        }
+    }
+    /** Edit Section button is pressed. */
+    private void buttonEditSection()
+    {
+        // A section is selected
+        if (ui.getCurrentSection() != null)
+            ui.openSectionCreationUI(ui.getCurrentSection());
+        // No section selected
+        else
+        {
+            Alert a = new Alert(Alert.AlertType.ERROR, "No section selected.");
+            a.show();
+        }
+    }
+    /** Delete Section button is pressed. */
+    private void buttonDeleteSection()
+    {
+        // Selection
+        if (ui.getCurrentSection() != null)
+        {
+            // Show confirm box to user before deleting
+            Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+            a.showAndWait()
+                    .filter(response -> response == ButtonType.OK)
+                    .ifPresent(response -> ui.deleteSection(ui.getCurrentSection()));
+        }
+        // No selection
+        else
+        {
+            Alert a = new Alert(Alert.AlertType.ERROR, "No section selected.");
             a.show();
         }
     }
 
+
+    /** Create new task button is pressed. */
+    private void buttonCreateTask()
+    {
+        // Ensure a section is open for the task to become a child of.
+        if (ui.getCurrentSection() != null)
+            ui.openTaskCreationUI(null);
+        else
+        {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("Please select or create a section for the task to be created in first.");
+            a.show();
+        }
+    }
     /** Edit current task button is pressed. */
     private void buttonEditTask()
     {
@@ -173,7 +243,6 @@ public class UI_Main implements InterfaceUI
             a.show();
         }
     }
-
     /** Delete current task button is pressed. */
     private void buttonDeleteTask()
     {
@@ -193,6 +262,7 @@ public class UI_Main implements InterfaceUI
             a.show();
         }
     }
+
 
     /** Task list is selected (clicked).
      * @param list  The ListView to get selection from.
@@ -267,8 +337,35 @@ public class UI_Main implements InterfaceUI
         subtaskUI = null;
     }
 
+    /** Populates list views with their respective objects */
+    public void populateListViews()
+    {
+        // Clear all of contents
+        lists.getItems().clear();
+        sections.getItems().clear();
+        tasks.getItems().clear();
+
+        ArrayList<TaskList> userLists = ui.getCurrentUser().getTaskLists();
+
+        // Populate lists
+        if (userLists != null)
+            for (TaskList tl : userLists)
+                lists.getItems().add(tl);
+
+        // Populate sections
+        if (ui.getCurrentList() != null)
+            for (TaskListSection sec : ui.getCurrentList().getSections())
+                sections.getItems().add(sec);
+
+        // Populate tasks
+        if (ui.getCurrentSection() != null)
+            for (Task t : ui.getCurrentSection().getTasks())
+                tasks.getItems().add(t);
+    }
+
     public void close()
     {
+        ui.setMain(null);
         stage.close();
     }
 }

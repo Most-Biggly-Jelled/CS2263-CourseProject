@@ -15,8 +15,6 @@ public class UI_Subtask implements InterfaceUI
 {
     // Variables
     private Stage stage;
-    /** Currently selected user */
-    private User selectedUser;
     /** Subtask list view display */
     private ListView<Subtask> subtasks;
     /** Task to display subtasks of. */
