@@ -4,6 +4,8 @@ import CS2263.CourseProject.*;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -55,7 +57,6 @@ public class UI
      * @param user  User object to log in as. */
     public void login(UI_Login login, User user)
     {
-        // TODO: This will need to integrated with login to check credentials
         if (user.getEmail().equals("admin"))
         {
             UI_Admin admin = new UI_Admin(this);
@@ -68,9 +69,30 @@ public class UI
             {
                 setCurrentUser(IO.LoadUser(user.getEmail()));
 
-                UI_Main main = new UI_Main(this);
-                main.show();
-                login.close();
+                // Ensure user loaded correctly
+                if (currentUser != null)
+                {
+                    // Verify user credentials
+                    LoginCredentials lc = new LoginCredentials
+                            (
+                                    currentUser.getEmail(),
+                                    currentUser.getEmail(),
+                                    currentUser.getPassword()
+                            );
+
+                    // Check password
+                    if (lc.verifyUserPassword(user.getPassword()))
+                    {
+                        UI_Main main = new UI_Main(this);
+                        main.show();
+                        login.close();
+                    }
+                    // Wrong password entered
+                    else
+                        login.loginError();
+                }
+                else
+                    login.loginError();
             }
             catch (IOException e)
             {
@@ -78,7 +100,7 @@ public class UI
                 login.loginError();
             }
         }
-        // Login error.
+        // Login error if any fields are left blank.
         else
             login.loginError();
     }
@@ -144,6 +166,11 @@ public class UI
     {
         try
         {
+            // Create a new ArrayList if it doesn't exist
+            if (currentUser.getTaskLists() == null)
+                currentUser.setTaskLists(new ArrayList<>());
+
+            // Add newly created list to user's task lists
             currentUser.getTaskLists().add(list);
             IO.SaveUser(currentUser);
         }

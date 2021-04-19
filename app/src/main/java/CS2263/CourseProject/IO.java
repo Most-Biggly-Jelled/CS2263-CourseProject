@@ -54,7 +54,6 @@ public class IO
 
             Gson gson = new Gson();
 
-            // TODO: For some reason this throws IOException when "resources" is "resources/"
             FileReader reader = new FileReader(userDir + userName + ".json");
 
             return gson.fromJson(reader, User.class);
