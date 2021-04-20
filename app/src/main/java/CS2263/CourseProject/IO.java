@@ -67,7 +67,8 @@ public class IO
         return null;
     }
 
-    /** Checks if param "dir" exists. Creates if not.
+    /** @author Dustin Weber
+     * Checks if param "dir" exists. Creates if not.
      * Should be called before all other IO operations.
      * @param dir  Directory path to check and create. */
     private static void checkDir(String dir) throws IOException

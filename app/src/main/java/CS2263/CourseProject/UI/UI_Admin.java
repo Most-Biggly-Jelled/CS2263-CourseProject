@@ -102,7 +102,6 @@ public class UI_Admin implements InterfaceUI
             a.show();
         }
     }
-
     /** Delete currently selected user button is pressed. */
     private void buttonDeleteUser()
     {
@@ -111,12 +110,10 @@ public class UI_Admin implements InterfaceUI
         {
             // Show confirm box to user before deleting
             Alert a = new Alert(Alert.AlertType.CONFIRMATION);
-            // TODO: Un-comment the showAndWait and remove show() when Admin is implemented
-            // Also the response -> ... must be filled in with the delete function.
             a.show();
-            //a.showAndWait()
-            //        .filter(response -> response == ButtonType.OK)
-            //        .ifPresent(response -> DELETE FUNCTION HERE));
+            a.showAndWait()
+                    .filter(response -> response == ButtonType.OK)
+                    .ifPresent(response -> ui.deleteUser(selectedUser));
         }
         // No selection
         else
@@ -131,7 +128,6 @@ public class UI_Admin implements InterfaceUI
     private void userSelect(ListView<User> users)
     {
         selectedUser = users.getSelectionModel().getSelectedItem();
-        // TODO: Must be connected to Admin class.
     }
 
     public void close()

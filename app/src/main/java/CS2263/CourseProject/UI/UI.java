@@ -164,6 +164,12 @@ public class UI
             System.out.println("New user couldn't be created.");
         }
     }
+    /** Delete user entirely.
+     * @param user  User to delete. */
+    public void deleteUser(User user)
+    {
+        // TODO
+    }
 
 
     /** Creates new task list.
