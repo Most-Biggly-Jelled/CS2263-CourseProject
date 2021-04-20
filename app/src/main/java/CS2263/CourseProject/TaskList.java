@@ -2,30 +2,41 @@ package CS2263.CourseProject;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 /** @author  Madison May
  * Task or to-do list. */
+@AllArgsConstructor
 public class TaskList
 {
     // Variables
     @Getter @Setter private String name;
-    @Getter @Setter private ArrayList<Task> tasks;
+    @Getter @Setter private ArrayList<TaskListSection> sections;
     /** Due date of the list */
-    @Getter @Setter private LocalDate date;
+    @Getter @Setter private String date;
     /** Description of what this list/project entails. */
     @Getter @Setter private String description;
 
 
-    // Constructors
-    /** Default constructor */
-    public TaskList() {}
-
-    /** Parameterized constructor
-     * @param tasks  Array of tasks. */
-    public TaskList(ArrayList<Task> tasks)
+    /** @author Dustin Weber
+     * @param s  String to convert to a LocalDate
+     * @return  due date as a LocalDate object */
+    public LocalDate getDateAsLocalDate(String s)
     {
-        this.tasks = tasks;
+        try
+        {
+            return LocalDate.parse(s);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public String toString()
+    {
+        return name;
     }
 }

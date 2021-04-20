@@ -9,7 +9,7 @@ import java.util.List;
 public class Subtask {
     @Getter @Setter private Task parentTask;
     @Getter @Setter private String listName;
-    @Getter @Setter private int date;
+    @Getter @Setter private String date;
     @Getter @Setter private String title;
     @Getter @Setter private String description;
     @Getter @Setter private String status;

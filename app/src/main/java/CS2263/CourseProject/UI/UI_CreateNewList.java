@@ -15,6 +15,8 @@ public class UI_CreateNewList implements InterfaceUI
     private Stage stage;
     /** List to edit. Null if a new list is being created from this UI. */
     private final TaskList list;
+    /** Reference to main UI. */
+    private final UI_Main main;
     /** Reference to controlling UI class. */
     private final UI ui;
 
@@ -22,10 +24,12 @@ public class UI_CreateNewList implements InterfaceUI
     // Constructors
     /** Parameterized constructor. Use this when modifying an existing task.
      * @param ui  Reference to controlling UI class.
+     * @param main  Reference to main UI.
      * @param list  Existing list to modify. */
-    public UI_CreateNewList(UI ui, TaskList list)
+    public UI_CreateNewList(UI ui, UI_Main main, TaskList list)
     {
         this.ui = ui;
+        this.main = main;
         this.list = list;
     }
 
@@ -51,7 +55,7 @@ public class UI_CreateNewList implements InterfaceUI
         if (list != null)
         {
             textTitle.setText(list.getName());
-            date.setValue(list.getDate());
+            date.setValue(list.getDateAsLocalDate(list.getDate()));
             textDescription.setText(list.getDescription());
         }
 
@@ -104,7 +108,7 @@ public class UI_CreateNewList implements InterfaceUI
         // Ensure all parameters are valid
         if (!title.isEmpty() && date != null && !description.isEmpty())
         {
-            TaskList newList = new TaskList();
+            TaskList newList = new TaskList(title, null, date.toString(), description);
             // Call create or edit function based on context
             if (list == null)
                 ui.createList(newList);
@@ -129,6 +133,7 @@ public class UI_CreateNewList implements InterfaceUI
 
     public void close()
     {
+        main.populateListViews();
         stage.close();
     }
 }

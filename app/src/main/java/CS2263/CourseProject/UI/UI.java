@@ -4,6 +4,8 @@ import CS2263.CourseProject.*;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,10 +17,15 @@ public class UI
     // Variables
     /** Currently selected task */
     @Getter @Setter private Task currentTask;
+    /** Currently selected section of a list. */
+    @Getter @Setter private TaskListSection currentSection;
     /** Currently selected list */
     @Getter @Setter private TaskList currentList;
     /** User currently logged into the system. */
     @Getter @Setter private User currentUser;
+    /** Currently open main UI window. */
+    @Getter @Setter private UI_Main main;
+
     /** Default title to use for the application. */
     @Getter private final static String windowTitle = "To-Do List";
     /** Path to application icon. */
@@ -53,7 +60,6 @@ public class UI
      * @param user  User object to log in as. */
     public void login(UI_Login login, User user)
     {
-        // TODO: This will need to integrated with login to check credentials
         if (user.getEmail().equals("admin"))
         {
             UI_Admin admin = new UI_Admin(this);
@@ -66,9 +72,30 @@ public class UI
             {
                 setCurrentUser(IO.LoadUser(user.getEmail()));
 
-                UI_Main main = new UI_Main(this);
-                main.show();
-                login.close();
+                // Ensure user loaded correctly
+                if (currentUser != null)
+                {
+                    // Verify user credentials
+                    LoginCredentials lc = new LoginCredentials
+                            (
+                                    currentUser.getEmail(),
+                                    currentUser.getEmail(),
+                                    currentUser.getPassword()
+                            );
+
+                    // Check password
+                    if (lc.verifyUserPassword(user.getPassword()))
+                    {
+                        main = new UI_Main(this);
+                        main.show();
+                        login.close();
+                    }
+                    // Wrong password entered
+                    else
+                        login.loginError();
+                }
+                else
+                    login.loginError();
             }
             catch (IOException e)
             {
@@ -76,27 +103,40 @@ public class UI
                 login.loginError();
             }
         }
-        // Login error.
+        // Login error if any fields are left blank.
         else
             login.loginError();
     }
 
+    public void openSectionCreationUI(TaskListSection sec)
+    {
+        UI_CreateNewSection ui = new UI_CreateNewSection(this, main, sec);
+        ui.show();
+    }
     /** Shows task creation UI.
      * @param task  Task to open with. Leave null to create a new task. */
     public void openTaskCreationUI(Task task)
     {
-        UI_CreateNewTask ui = new UI_CreateNewTask(this, task);
+        UI_CreateNewTask ui = new UI_CreateNewTask(this, main, task);
         ui.show();
     }
-
+    /** Shows subtasks for a given task.
+     * @param main  Main UI class the subtask UI should reference.
+     * @param task  Task to show subtasks of.
+     * @return  Newly created UI */
+    public UI_Subtask openSubtaskUI(UI_Main main, Task task)
+    {
+        UI_Subtask ui = new UI_Subtask(main, task);
+        ui.show();
+        return ui;
+    }
     /** Shows list creation UI.
     * @param list  List to open with. Leave null to create a new list. */
     public void openListCreationUI(TaskList list)
     {
-        UI_CreateNewList ui = new UI_CreateNewList(this, list);
+        UI_CreateNewList ui = new UI_CreateNewList(this, main, list);
         ui.show();
     }
-
     /** Shows options UI. */
     public void openOptionsUI()
     {
@@ -124,14 +164,33 @@ public class UI
             System.out.println("New user couldn't be created.");
         }
     }
+    /** Delete user entirely.
+     * @param user  User to delete. */
+    public void deleteUser(User user)
+    {
+        // TODO
+    }
 
-    /** User selects UI element to create a new task list.
+
+    /** Creates new task list.
     * @param list  The list to create. */
     public void createList(TaskList list)
     {
         try
         {
-            currentUser.getTaskLists().add(list);
+            ArrayList<TaskList> newUserLists;
+
+            // If user already has lists then set newUserLists to that one
+            if (currentUser.getTaskLists() != null)
+                newUserLists = currentUser.getTaskLists();
+            else
+                newUserLists = new ArrayList<>();
+
+            // Add newly created list
+            newUserLists.add(list);
+
+            // Output to user
+            currentUser.setTaskLists(newUserLists);
             IO.SaveUser(currentUser);
         }
         catch (IOException e)
@@ -139,8 +198,7 @@ public class UI
             System.out.println("User data couldn't be saved.");
         }
     }
-
-    /** User modifies/edits currently selected task list.
+    /** Modifies/edits currently selected task list.
      * @param list  Newly modified list to REPLACE currentList with. */
     public void editList(TaskList list)
     {
@@ -154,8 +212,7 @@ public class UI
             System.out.println("User data couldn't be saved.");
         }
     }
-
-    /** User deletes existing task list.
+    /** Deletes existing task list.
      * @param list  The list to delete. */
     public void deleteList(TaskList list)
     {
@@ -170,13 +227,54 @@ public class UI
         }
     }
 
-    /** User selects UI element to create a new task in the current list.
-     * @param task  New task to create. */
-    public void createTask(Task task)
+
+    /** Creates new section
+     * @param section  The section to create. */
+    public void createSection(TaskListSection section)
     {
         try
         {
-            currentList.getTasks().add(task);
+            ArrayList<TaskListSection> newSections;
+
+            // If user already has lists then set newUserLists to that one
+            if (currentList.getSections() != null)
+                newSections = currentList.getSections();
+            else
+                newSections = new ArrayList<>();
+
+            // Add newly created list
+            newSections.add(section);
+
+            // Output to user
+            currentList.setSections(newSections);
+            IO.SaveUser(currentUser);
+        }
+        catch (IOException e)
+        {
+            System.out.println("User data couldn't be saved.");
+        }
+    }
+    /** User modifies/edits currently selected section.
+     * @param section  Section to REPLACE currentSection with. */
+    public void editSection(TaskListSection section)
+    {
+        try
+        {
+            currentSection = section;
+            IO.SaveUser(currentUser);
+        }
+        catch (IOException e)
+        {
+            System.out.println("User data couldn't be saved.");
+        }
+    }
+    /** User deletes existing section.
+     * @param section  Section to delete. */
+    public void deleteSection(TaskListSection section)
+    {
+        try
+        {
+            currentList.getSections().remove(section);
             IO.SaveUser(currentUser);
         }
         catch (IOException e)
@@ -185,7 +283,34 @@ public class UI
         }
     }
 
-    /** User wishes to edit the current task.
+
+    /** Creates new task in current list.
+     * @param task  New task to create. */
+    public void createTask(Task task)
+    {
+        try
+        {
+            ArrayList<Task> newTasks;
+
+            // If user already has lists then set newUserLists to that one
+            if (currentSection.getTasks() != null)
+                newTasks = currentSection.getTasks();
+            else
+                newTasks = new ArrayList<>();
+
+            // Add newly created list
+            newTasks.add(task);
+
+            // Output to user
+            currentSection.setTasks(newTasks);
+            IO.SaveUser(currentUser);
+        }
+        catch (IOException e)
+        {
+            System.out.println("User data couldn't be saved.");
+        }
+    }
+    /** Edits current task.
      * @param task  Newly modified task to REPLACE currentTask with. */
     public void editTask(Task task)
     {
@@ -199,14 +324,13 @@ public class UI
             System.out.println("User data couldn't be saved.");
         }
     }
-
-    /** User deletes existing task.
+    /** Deletes an existing task.
      * @param task  The task to delete. */
     public void deleteTask(Task task)
     {
         try
         {
-            currentList.getTasks().remove(task);
+            currentSection.getTasks().remove(task);
             IO.SaveUser(currentUser);
         }
         catch (IOException e)
@@ -214,6 +338,7 @@ public class UI
             System.out.println("User data couldn't be saved.");
         }
     }
+
 
     /** User selects UI element to create a subtask of an existing task.
      * @param parent  Existing task which will have a subtask added to it.
@@ -230,7 +355,6 @@ public class UI
             System.out.println("User data couldn't be saved.");
         }
     }
-
     /** User deletes subtask.
      * @param subtask  The subtask to delete. */
     public void deleteSubtask(Subtask subtask)
@@ -249,6 +373,7 @@ public class UI
     /** User selects UI element to log out. */
     public void logout()
     {
+        main = null;
         currentUser = null;
         UI_Login login = new UI_Login(this);
         login.show();
