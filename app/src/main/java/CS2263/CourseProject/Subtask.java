@@ -5,6 +5,9 @@ import lombok.Setter;
 
 import java.util.List;
 
+/** @author Madison May
+ * Most Biggly Jelled
+ * Task class for to do list manager */
 
 public class Subtask {
     @Getter @Setter private Task parentTask;
