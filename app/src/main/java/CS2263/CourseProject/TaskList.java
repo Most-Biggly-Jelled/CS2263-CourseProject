@@ -7,6 +7,7 @@ import lombok.*;
 /** @author  Madison May
  * Task or to-do list. */
 @AllArgsConstructor
+@NoArgsConstructor
 public class TaskList
 {
     // Variables
