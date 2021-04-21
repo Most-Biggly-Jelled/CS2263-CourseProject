@@ -2,7 +2,7 @@ package CS2263.CourseProject;
 
 /**
 @author Madison May
-        testing for user class
+        testing for task
 it's basically just a data class, so I don't imagine any of this will fail
         */
 
