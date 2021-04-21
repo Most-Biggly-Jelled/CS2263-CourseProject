@@ -27,23 +27,33 @@ public class IOTest {
         assertEquals(testUser.getEmail(), loadedUser.getEmail());
         assertEquals(testUser.getPassword(), loadedUser.getPassword());
     }
-//    @Test public void loadedUsersHaveTasks() {
-//        User testUser = new User("email", "pass");
-//        ArrayList<TaskList> testArrayList = new ArrayList<>();
-//        ArrayList<Task> taskArrayList = new ArrayList<>();
-//
-//        Task testTask = new Task();
-//        testTask.setName("task_name");
-//
-//        taskArrayList.add(testTask);
-//        TaskList taskList = new TaskList();
-//        taskList.setSections(taskArrayList);
-//
-//        testArrayList.add(taskList);
-//        testUser.setTaskLists(testArrayList);
-//
-//        assertEquals("task_name", testUser.getTaskLists().get(0).getSections().get(0).getName());
-//
-//    }
+    @SneakyThrows
+    @Test public void loadedUsersHaveTasks() {
+        User testUser = new User("test_email", "test_password");
+        TaskList testTaskList = new TaskList();
+        TaskListSection testTaskListSection = new TaskListSection();
+        Task testTask = new Task();
+
+        testTask.setName("quest");
+
+        ArrayList<Task> taskArrayList = new ArrayList<>();
+        taskArrayList.add(testTask);
+        testTaskListSection.setTasks(taskArrayList);
+
+        ArrayList<TaskListSection> taskListSectionArrayList = new ArrayList<>();
+        taskListSectionArrayList.add(testTaskListSection);
+        testTaskList.setSections(taskListSectionArrayList);
+
+        ArrayList<TaskList> taskListArrayList = new ArrayList<>();
+        taskListArrayList.add(testTaskList);
+        testUser.setTaskLists(taskListArrayList);
+
+        SaveUser(testUser);
+        User newUser = LoadUser("test_email");
+
+        assertNotNull(newUser);
+        assertEquals("quest", newUser.getTaskLists().get(0).getSections().get(0).getTasks().get(0).getName());
+
+    }
 
 }
