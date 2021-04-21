@@ -292,13 +292,13 @@ public class UI
         {
             ArrayList<Task> newTasks;
 
-            // If user already has lists then set newUserLists to that one
+            // If user already has tasks then set to that one
             if (currentSection.getTasks() != null)
                 newTasks = currentSection.getTasks();
             else
                 newTasks = new ArrayList<>();
 
-            // Add newly created list
+            // Add newly created task
             newTasks.add(task);
 
             // Output to user
