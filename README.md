@@ -1,5 +1,5 @@
 # CS2263-CourseProject
-Multi-user to-do list manager, course project for CS2263.
+Multi-user to-do list manager created in Java. Course project for CS2263.
 
 # Installation
 Project can be downloaded and ran on Windows in a few simple steps.
