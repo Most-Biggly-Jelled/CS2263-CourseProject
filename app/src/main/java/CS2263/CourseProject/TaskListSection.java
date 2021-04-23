@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 /** @author  Dustin Weber
  * Task list section. */
+
+@NoArgsConstructor
 public class TaskListSection
 {
     // Variables

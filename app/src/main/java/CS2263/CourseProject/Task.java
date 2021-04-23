@@ -1,6 +1,8 @@
 package CS2263.CourseProject;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +10,9 @@ import java.util.List;
 /** @author Madison May
  * Most Biggly Jelled
  * Task class for to do list manager */
+
+@AllArgsConstructor
+@NoArgsConstructor
 public class Task {
     @Getter @Setter private String name;
     @Getter @Setter private String date;
@@ -22,8 +27,6 @@ public class Task {
 
 
     // Constructors
-    /** Default constructor */
-    public Task() {}
 
     /** Parameterized constructor
      * @param name  Name of the containing list.
