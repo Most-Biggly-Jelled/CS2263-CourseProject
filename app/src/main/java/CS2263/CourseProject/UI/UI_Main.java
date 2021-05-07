@@ -16,7 +16,7 @@ public class UI_Main implements InterfaceUI
 {
     // Variables
     private Stage stage;
-    /** Reference to controlling UI class. */
+    /** Controlling UI class. */
     private final UI ui;
     private UI_Subtask subtaskUI;
     // List views
@@ -160,7 +160,11 @@ public class UI_Main implements InterfaceUI
             Alert a = new Alert(Alert.AlertType.CONFIRMATION);
             a.showAndWait()
                     .filter(response -> response == ButtonType.OK)
-                    .ifPresent(response -> ui.deleteList(ui.getCurrentList()));
+                    .ifPresent(response ->
+                    {
+                        ui.deleteList(ui.getCurrentList());
+                        populateListViews();
+                    });
         }
         // No list selected
         else
@@ -206,7 +210,11 @@ public class UI_Main implements InterfaceUI
             Alert a = new Alert(Alert.AlertType.CONFIRMATION);
             a.showAndWait()
                     .filter(response -> response == ButtonType.OK)
-                    .ifPresent(response -> ui.deleteSection(ui.getCurrentSection()));
+                    .ifPresent(response ->
+                    {
+                        ui.deleteSection(ui.getCurrentSection());
+                        populateListViews();
+                    });
         }
         // No selection
         else
@@ -253,7 +261,11 @@ public class UI_Main implements InterfaceUI
             Alert a = new Alert(Alert.AlertType.CONFIRMATION);
             a.showAndWait()
                     .filter(response -> response == ButtonType.OK)
-                    .ifPresent(response -> ui.deleteTask(ui.getCurrentTask()));
+                    .ifPresent(response ->
+                    {
+                        ui.deleteTask(ui.getCurrentTask());
+                        populateListViews();
+                    });
         }
         // No task selected
         else
@@ -286,7 +298,6 @@ public class UI_Main implements InterfaceUI
                     sections.getItems().add(section);
         }
     }
-
     /** Task list section is clicked.
      * @param section  ListView to get selection from. */
     private void sectionSelect(ListView<TaskListSection> section, ListView<Task> tasks)
@@ -309,7 +320,6 @@ public class UI_Main implements InterfaceUI
             }
         }
     }
-
     /** Task is selected (clicked).
      * @param task  The ListView to get selection from. */
     private void taskSelect(ListView<Task> task)
